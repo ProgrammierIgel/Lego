@@ -1,0 +1,39 @@
+{
+  "name": "lego-controll-plus",
+  "version": "0.1.0",
+  "description": "processenv parses environment variables.",
+  "contributors": [
+    {
+      "name": "Erwin Mueller",
+      "email": "erwinmeuller968@gmail.com"
+    }
+  ],
+  "private": true,
+  "main": "build/lib/app.js",
+  "types": "build/lib/app.d.ts",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "assertthat": "^6.5.2",
+    "bluetooth-hci-socket": "0.5.1",
+    "defekt": "9.3.1",
+    "express": "^4.19.2",
+    "flaschenpost": "^5.1.1",
+    "noble": "1.9.1",
+    "node-poweredup": "9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "8.21.0",
+    "eslint-config-es": "4.1.0",
+    "roboter": "13.2.1"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/programmierigel/legocontrollplus"
+  },
+  "keywords": [
+    "lego",
+    "controllPlus"
+  ],
+  "license": "MIT"
+}
