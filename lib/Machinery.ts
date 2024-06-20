@@ -45,47 +45,47 @@ class Machinery {
     await this.constructions[this.currentConstructionIndex].currentHubMotorALeft(speed);
   }
 
-  public async currentHubMotorBLeft (speed: number): Promise<void> {
+  public async currentConstructionMotorBLeft (speed: number): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorBLeft(speed);
   }
 
-  public async currentHubMotorCLeft (speed: number): Promise<void> {
+  public async currentConstructionMotorCLeft (speed: number): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorCLeft(speed);
   }
 
-  public async currentHubMotorDLeft (speed: number): Promise<void> {
+  public async currentConstructionMotorDLeft (speed: number): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorDLeft(speed);
   }
 
-  public async currentHubMotorAStop (): Promise<void> {
+  public async currentConstructionMotorAStop (): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorAStop();
   }
 
-  public async currentHubMotorBAStop (): Promise<void> {
+  public async currentConstructionMotorBStop (): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorBStop();
   }
 
-  public async currentHubMotorCStop (): Promise<void> {
+  public async currentConstructionMotorCStop (): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorCStop();
   }
 
-  public async currentHubMotorDStop (): Promise<void> {
+  public async currentConstructionMotorDStop (): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorDStop();
   }
 
-  public async currentHubMotorARight (speed: number): Promise<void> {
+  public async currentConstructionMotorARight (speed: number): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorARight(speed);
   }
 
-  public async currentHubMotorBRight (speed: number): Promise<void> {
+  public async currentConstructionMotorBRight (speed: number): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorBRight(speed);
   }
 
-  public async currentHubMotorCRight (speed: number): Promise<void> {
+  public async currentConstructionMotorCRight (speed: number): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorCRight(speed);
   }
 
-  public async currentHubMotorDRight (speed: number): Promise<void> {
+  public async currentConstructionMotorDRight (speed: number): Promise<void> {
     await this.constructions[this.currentConstructionIndex].currentHubMotorDRight(speed);
   }
   /* eslint-enable @typescript-eslint/naming-convention*/

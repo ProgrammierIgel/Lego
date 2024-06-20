@@ -1,3 +1,6 @@
 # Lego
 
-## funktionale
+## funktionale Anforderungen
+
+- Motor steuern
+- Motoren Stoppen
