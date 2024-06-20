@@ -1,6 +1,9 @@
+import { flaschenpost } from 'flaschenpost';
 import { HubConfiguration } from './types/HubConfiguration';
 import { HubSettings } from './types/HubSettings';
 import * as errors from './errors';
+
+const logger = flaschenpost.getLogger();
 
 class Hub {
   private readonly settings: HubSettings;
@@ -52,51 +55,51 @@ class Hub {
   /* eslint-disable class-methods-use-this, @typescript-eslint/no-unused-vars*/
 
   public async motorA_left (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotorA-left (with speed: ${speed})`);
   }
 
   public async motorA_stop (): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info('MotorA-stop');
   }
 
   public async motorA_right (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotorA-right (with speed: ${speed})`);
   }
 
   public async motorB_left (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotorB-left (with speed: ${speed})`);
   }
 
   public async motorB_stop (): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info('MotorB-stop');
   }
 
   public async motorB_right (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotorB-right (with speed: ${speed})`);
   }
 
   public async motorC_left (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotorC-left (with speed: ${speed})`);
   }
 
   public async motorC_stop (): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info('MotorC-stop');
   }
 
   public async motorC_right (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotoC-right (with speed: ${speed})`);
   }
 
   public async motorD_left (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotorD-left (with speed: ${speed})`);
   }
 
   public async motorD_stop (): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info('MotorD-stop');
   }
 
   public async motorD_right (speed: number): Promise<void> {
-    throw new errors.NotImplemented();
+    logger.info(`MotorD-right (with speed: ${speed})`);
   }
 
   /* eslint-enable @typescript-eslint/naming-convention */

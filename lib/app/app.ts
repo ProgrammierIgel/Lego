@@ -3,6 +3,7 @@ import express from 'express';
 import { flaschenpost } from 'flaschenpost';
 import { Hub } from '../Hub';
 import { Machinery } from '../Machinery';
+import path from 'path';
 import { ResponseBodyMotorControl } from '../types/ResponseBodyMotorControl';
 import * as errors from '../errors';
 
@@ -169,6 +170,10 @@ app.post('/', (request, response): void => {
 
     response.end(0);
   });
+});
+
+app.get('/', (request, response): void => {
+  response.sendFile(path.join(__dirname, '/../templates/index.html'));
 });
 
 app.listen(3_000);
