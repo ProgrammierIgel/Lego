@@ -22,7 +22,7 @@ pwdp.on('discover', async (hub): Promise<void> => {
 const app = express();
 
 app.get('/', (_req, res) => {
-	res.sendFile(path.join(__dirname, '../templates/index.html'));
+	res.sendFile(path.join(__dirname, '/../templates/index.html'));
 	res.end();
 });
 app.get('/ping', (_req, res) => {
