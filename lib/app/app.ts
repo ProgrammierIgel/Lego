@@ -1,179 +1,113 @@
-import { Construction } from '../Construction';
 import express from 'express';
 import { flaschenpost } from 'flaschenpost';
-import { Hub } from '../Hub';
-import { Machinery } from '../Machinery';
+import { PoweredUP } from 'node-poweredup';
 import path from 'path';
-import { ResponseBodyMotorControl } from '../types/ResponseBodyMotorControl';
-import * as errors from '../errors';
-
-const machinery = new Machinery();
-
-const bulldozer = new Construction();
+import { Models, handleMotorRequest } from '../lego';
+import { registeredDevices } from './registeredDevices';
 
 const logger = flaschenpost.getLogger();
 
-bulldozer.addHub(new Hub({
-  configuration: {
-    name: 'Bulldozer-Hub1'
-  },
-  settings: {
-    MotorA: {
-      existing: false
-    },
-    MotorB: {
-      existing: false
-    },
-    MotorC: {
-      existing: false
-    },
-    MotorD: {
-      existing: false
-    }
-  }
-}));
+const models = new Models();
 
-machinery.addConstruction(bulldozer);
+const pwdp = new PoweredUP();
+
+pwdp.scan();
+
+pwdp.on('discover', async (hub): Promise<void> => {
+	const construction = registeredDevices[hub.uuid](hub);
+
+	models.addConstruction(construction);
+});
 
 const app = express();
 
-app.post('/', (request, response): void => {
-  const reqBody: Uint8Array[] = [];
-
-  request.on('data', (chunk: Uint8Array): void => {
-    reqBody.push(chunk);
-  });
-
-  request.on('end', async (): Promise<void> => {
-    const dataRequestString = Buffer.concat(reqBody).toString();
-    const controlObject: ResponseBodyMotorControl = {};
-
-    const dataRequestParts = dataRequestString.split('&');
-
-    dataRequestParts.forEach((controlPair): void => {
-      const splittedParts = controlPair.split('=').map((controlPairChunk): string => controlPairChunk.toString());
-
-      controlObject[splittedParts[0]] = splittedParts[1];
-    });
-
-    switch (controlObject.motor) {
-      case 'A':
-        logger.debug('A');
-        switch (controlObject.action) {
-          case 'left':
-            machinery.currentConstructionMotorALeft(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'right':
-            machinery.currentConstructionMotorARight(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'stop':
-            machinery.currentConstructionMotorAStop().catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          default:
-            response.end('1');
-            throw new errors.IncorrectDataRequest();
-        }
-        break;
-      case 'B':
-        logger.debug('B');
-
-        switch (controlObject.action) {
-          case 'left':
-            machinery.currentConstructionMotorBLeft(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'right':
-            machinery.currentConstructionMotorBRight(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'stop':
-            machinery.currentConstructionMotorBStop().catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          default:
-            response.end('1');
-            throw new errors.IncorrectDataRequest();
-        }
-        break;
-
-      case 'C':
-        switch (controlObject.action) {
-          case 'left':
-            machinery.currentConstructionMotorCLeft(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'right':
-            machinery.currentConstructionMotorCRight(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'stop':
-            machinery.currentConstructionMotorCStop().catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          default:
-            response.end('1');
-            throw new errors.IncorrectDataRequest();
-        }
-        break;
-
-      case 'D':
-        switch (controlObject.action) {
-          case 'left':
-            machinery.currentConstructionMotorDLeft(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'right':
-            machinery.currentConstructionMotorDRight(Number(controlObject.speed)).catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          case 'stop':
-            await machinery.currentConstructionMotorDStop().catch((): void => {
-              response.end('1');
-              throw new errors.MotorError();
-            });
-            break;
-          default:
-            response.end('1');
-            throw new errors.IncorrectDataRequest();
-        }
-        break;
-
-      default:
-        response.end('1');
-        throw new errors.IncorrectDataRequest();
-    }
-
-    response.end(0);
-  });
+app.get('/', (_req, res) => {
+	res.sendFile(path.join(__dirname, '../templates/index.html'));
+	res.end();
+});
+app.get('/ping', (_req, res) => {
+	res.end('OK');
+	logger.debug('ping');
 });
 
-app.get('/', (request, response): void => {
-  response.sendFile(path.join(__dirname, '/../templates/index.html'));
+app.post('/start', (req, res) => {
+	const reqBody: Uint8Array[] = [];
+	req.on('data', (chunk) => {
+		reqBody.push(chunk);
+	});
+
+	const construction = models.getCurrentConstruction();
+	if (typeof construction === 'number') {
+		logger.debug('no construction');
+		return;
+	}
+
+	req.on('end', () => {
+		const string: string = Buffer.concat(reqBody).toString();
+		if (!(string.includes('port=') && string.includes('speed='))) {
+			res.end('INTERNAL SERVER ERROR');
+			return;
+		}
+
+		const iPort = string.split('port=')[1].split('&')[0].toLowerCase();
+
+		if (!(iPort === 'a' || iPort === 'b' || iPort === 'c' || iPort === 'd')) {
+			res.end('INTERNAL SEVER ERROR');
+			return;
+		}
+		const port = iPort;
+		const speed = Number(string.split('speed=')[1].split('&')[0]);
+
+		handleMotorRequest({
+			speed: speed,
+			port: port,
+			construction: construction,
+		});
+	});
+
+	res.end('OK');
+});
+
+app.post('/stop', (req, res) => {
+	const reqBody: Uint8Array[] = [];
+	req.on('data', (chunk) => {
+		reqBody.push(chunk);
+	});
+
+	const construction = models.getCurrentConstruction();
+	if (typeof construction === 'number') {
+		logger.debug('no construction');
+		return;
+	}
+
+	req.on('end', () => {
+		const string = Buffer.concat(reqBody).toString();
+		if (!string.includes('port=') && string.includes('&')) {
+			res.end('INTERNAL SERVER ERROR');
+			return;
+		}
+
+		const _port = string.split('port=')[1].toLowerCase();
+
+		if (!(_port === 'a' || _port === 'b' || _port === 'c' || _port === 'd')) {
+			res.end('INTERNAL SEVER ERROR');
+			return;
+		}
+		const port = _port;
+
+		handleMotorRequest({
+			speed: 0,
+			port: port,
+			construction: construction,
+		});
+
+		res.end('OK');
+	});
+});
+
+process.on('SIGINT', () => {
+	models.disconnectAll();
+	process.exit();
 });
 
 app.listen(3_000);

@@ -1,6 +1,5 @@
-import { defekt } from 'defekt';
+import { defekt } from "defekt";
 
-class IncorrectDataRequest extends defekt({ code: 'IncorrectDataRequest' }) {}
-class MotorError extends defekt({ code: 'MotorError' }) {}
+class NoConnectedDevice extends defekt({ code: "NoConnectedDevice" }) {}
 
-export { IncorrectDataRequest, MotorError };
+export { NoConnectedDevice };

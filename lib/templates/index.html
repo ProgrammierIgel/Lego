@@ -18,11 +18,11 @@
     const loop = async () => {
       console.log(key)
       if (key["81"] == true && A != 'left') {
-        post('A', 'left', '&speed=1');
+        post('A', 'left', '100');
         A='left';
 
       } else if (key["65"] == true && A != 'right') {
-        post('A', 'right', '&speed=1');
+        post('A', 'right', '100');
         A='right';
       }
       if (key["81"] == false && key["65"] == false && A != 'stop') {
@@ -31,10 +31,10 @@
       }
 
       if (key["87"] == true && B != 'left') {
-        post('B', 'left', '&speed=1');
+        post('B', 'left', '100');
         B='left';
       }else if (key["83"] == true && B != 'right') {
-        post('B', 'right', '&speed=1');
+        post('B', 'right', '100');
         B='right'
       }
       if (key["87"] == false && key["83"] == false && B != 'stop') {
@@ -43,10 +43,10 @@
       }
 
       if (key["69"] == true && C != 'left') {
-        post('C', 'left', '&speed=1');
+        post('C', 'left', '100');
         C='left';
       } else if (key["68"] == true && C != 'right') {
-        post('C', 'right', '&speed=1');
+        post('C', 'right', '100');
         C='right'
       }
       if (key["69"] == false && key["68"] == false && C != 'stop') {
@@ -55,10 +55,10 @@
       }
 
       if (key["82"] == true && D != 'left') {
-        post('D', 'left', '&speed=1');
+        post('D', 'left', '100');
         D='left';
       } else if (key["70"] == true && D != 'right') {
-        post('D', 'right', '&speed=1');
+        post('D', 'right', '100');
         D='right'
       }
       if (key["82"] == false && key["70"] == false && D != 'stop') {
@@ -68,7 +68,13 @@
     }
 
     const post = async function (motor, action, rest) {
-      return $.post('/', `motor=${motor}&action=${action}${rest}`);
+      if (action== "stop") {
+        return $.post('/stop', `port=${motor}`);
+      }
+      if(action =="left"){
+        return $.post('/start', `port=${motor}&speed=-${rest}`);
+      }
+      return $.post('/start', `port=${motor}&speed=${rest}`);
     }
     setInterval(loop, 500);
     </script>

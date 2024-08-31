@@ -12,19 +12,19 @@
   "main": "build/lib/app.js",
   "types": "build/lib/app.d.ts",
   "dependencies": {
-    "@types/express": "^4.17.21",
-    "assertthat": "^6.5.2",
-    "bluetooth-hci-socket": "0.5.1",
+    "assertthat": "6.5.2",
+    "bluetooth-hci-socket": "^0.5.1",
     "defekt": "9.3.1",
-    "express": "^4.19.2",
-    "flaschenpost": "^5.1.1",
+    "express": "4.19.2",
+    "flaschenpost": "5.1.1",
     "noble": "1.9.1",
     "node-poweredup": "9.0.0"
   },
   "devDependencies": {
-    "eslint": "8.21.0",
-    "eslint-config-es": "4.1.0",
-    "roboter": "13.2.1"
+    "@biomejs/biome": "1.8.3",
+    "@types/express": "4.17.21",
+    "@types/node": "^22.1.0",
+    "ts-node": "10.9.2"
   },
   "scripts": {},
   "repository": {
@@ -33,7 +33,7 @@
   },
   "keywords": [
     "lego",
-    "controllPlus"
+    "controlPlus"
   ],
   "license": "MIT"
 }
