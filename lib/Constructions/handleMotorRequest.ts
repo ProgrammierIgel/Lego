@@ -28,10 +28,9 @@ const handleMotorRequest = ({
 			if (speed < 0) {
 				construction.turnMotorBLeft({ speed });
 			} else if (speed === 0) {
-				logger.info("TEST")
 				construction.stopMotorB();
 			} else {
-				construction.turnMotorBRight({ speed });
+				construction.turnMotorBRight({ speed: speed * -1 });
 			}
 			return;
 
@@ -43,7 +42,7 @@ const handleMotorRequest = ({
 		// } else if (speed === 0) {
 		// 	construction.stopMotorA();
 		// } else {
-		// 	construction.turnMotorARight({ speed });
+		// 	construction.turnMotorARight({ speed: speed *-1  });
 		// }
 		// return;
 
@@ -55,7 +54,7 @@ const handleMotorRequest = ({
 		// } else if (speed === 0) {
 		// 	construction.stopMotorA();
 		// } else {
-		// 	construction.turnMotorARight({ speed });
+		// 	construction.turnMotorARight({ speed: speed *-1  });
 		// }
 		// return;
 	}

@@ -15,19 +15,17 @@ pwdp.scan();
 
 pwdp.on('discover', async (hub): Promise<void> => {
 	const construction = registeredDevices[hub.uuid](hub);
-
 	models.addConstruction(construction);
+	logger.info(`New ${typeof construction} detected with id ${hub.uuid}`);
 });
 
 const app = express();
 
 app.get('/', (_req, res) => {
 	res.sendFile(path.join(__dirname, '/../templates/index.html'));
-	res.end();
 });
 app.get('/ping', (_req, res) => {
 	res.end('OK');
-	logger.debug('ping');
 });
 
 app.post('/start', (req, res) => {
@@ -56,7 +54,13 @@ app.post('/start', (req, res) => {
 			return;
 		}
 		const port = iPort;
-		const speed = Number(string.split('speed=')[1].split('&')[0]);
+		const partWithSpeed = string.split('speed=')[1].split('&')[0];
+		let speed;
+		if (partWithSpeed.includes('&')) {
+			speed = Number(partWithSpeed.split('&')[0]);
+		} else {
+			speed = Number(partWithSpeed);
+		}
 
 		handleMotorRequest({
 			speed: speed,
@@ -65,7 +69,7 @@ app.post('/start', (req, res) => {
 		});
 	});
 
-	res.end('OK');
+	res.end();
 });
 
 app.post('/stop', (req, res) => {
@@ -101,7 +105,7 @@ app.post('/stop', (req, res) => {
 			construction: construction,
 		});
 
-		res.end('OK');
+		res.end();
 	});
 });
 

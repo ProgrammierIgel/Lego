@@ -1,82 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lego</title>
-  <script src="https://code.jquery.com/jquery-latest.js"></script>
-</head>
-<body>
-  <script defer>
-    let key = {};
-    let A = 'stop';
-    let B= 'stop';
-    let C = 'stop';
-    let D= 'stop';
-    document.addEventListener('keydown', e => key[e.keyCode] = true);
-    document.addEventListener('keyup', e => key[e.keyCode] = false);
-    const loop = async () => {
-      console.log(key)
-      if (key["81"] == true && A != 'left') {
-        post('A', 'left', '100');
-        A='left';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lego</title>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+  </head>
+  <body>
+    <h1>Hallo</h1>
+    <script defer>
+      // Motor  = Left  /  Right
+      // A      = 81    /  65
+      // B      = 87    /  83
+      // C      = 69    /  68
+      // C      = 82    /  70
 
-      } else if (key["65"] == true && A != 'right') {
-        post('A', 'right', '100');
-        A='right';
-      }
-      if (key["81"] == false && key["65"] == false && A != 'stop') {
-        post('A', 'stop', '');
-        A='stop';
-      }
+      let key = {};
+      let A = "stop";
+      let B = "stop";
+      let C = "stop";
+      let D = "stop";
+      document.addEventListener("keydown", (e) => (key[e.keyCode] = true));
+      document.addEventListener("keyup", (e) => (key[e.keyCode] = false));
+      const loop = async () => {
+        console.log(key);
+        if (key["81"] == true && A != "left") {
+          post("A", "left", 100);
+          A = "left";
+        } else if (key["65"] == true && A != "right") {
+          post("A", "right", 100);
+          A = "right";
+        }
+        if (key["81"] == false && key["65"] == false && A != "stop") {
+          post("A", "stop");
+          A = "stop";
+        }
 
-      if (key["87"] == true && B != 'left') {
-        post('B', 'left', '100');
-        B='left';
-      }else if (key["83"] == true && B != 'right') {
-        post('B', 'right', '100');
-        B='right'
-      }
-      if (key["87"] == false && key["83"] == false && B != 'stop') {
-        post('B', 'stop', '');
-        B='stop'
-      }
+        if (key["87"] == true && B != "left") {
+          post("B", "left", 100);
+          B = "left";
+        } else if (key["83"] == true && B != "right") {
+          post("B", "right", 100);
+          B = "right";
+        }
+        if (key["87"] == false && key["83"] == false && B != "stop") {
+          post("B", "stop");
+          B = "stop";
+        }
 
-      if (key["69"] == true && C != 'left') {
-        post('C', 'left', '100');
-        C='left';
-      } else if (key["68"] == true && C != 'right') {
-        post('C', 'right', '100');
-        C='right'
-      }
-      if (key["69"] == false && key["68"] == false && C != 'stop') {
-        post('C', 'stop', '');
-        C='stop'
-      }
+        if (key["69"] == true && C != "left") {
+          post("C", "left", 100);
+          C = "left";
+        } else if (key["68"] == true && C != "right") {
+          post("C", "right", 100);
+          C = "right";
+        }
+        if (key["69"] == false && key["68"] == false && C != "stop") {
+          post("C", "stop");
+          C = "stop";
+        }
 
-      if (key["82"] == true && D != 'left') {
-        post('D', 'left', '100');
-        D='left';
-      } else if (key["70"] == true && D != 'right') {
-        post('D', 'right', '100');
-        D='right'
-      }
-      if (key["82"] == false && key["70"] == false && D != 'stop') {
-        post('D', 'stop', '');
-        D='stop'
-      }
-    }
+        if (key["82"] == true && D != "left") {
+          post("D", "left", 100);
+          D = "left";
+        } else if (key["70"] == true && D != "right") {
+          post("D", "right", 100);
+          D = "right";
+        }
+        if (key["82"] == false && key["70"] == false && D != "stop") {
+          post("D", "stop");
+          D = "stop";
+        }
+      };
 
-    const post = async function (motor, action, rest) {
-      if (action== "stop") {
-        return $.post('/stop', `port=${motor}`);
-      }
-      if(action =="left"){
-        return $.post('/start', `port=${motor}&speed=-${rest}`);
-      }
-      return $.post('/start', `port=${motor}&speed=${rest}`);
-    }
-    setInterval(loop, 500);
+      const post = async function (motor, action, rest = 0) {
+        if (action == "stop") {
+          return $.post("/stop", `port=${motor}`);
+        }
+        if (action == "left") {
+          return $.post("/start", `port=${motor}&speed=${-rest}`);
+        }
+        return $.post("/start", `port=${motor}&speed=${rest}`);
+      };
+      setInterval(loop, 10);
     </script>
-</body>
+  </body>
 </html>

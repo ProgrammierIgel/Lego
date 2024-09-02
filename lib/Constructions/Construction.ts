@@ -29,13 +29,13 @@ class Construction {
 			await this.hub.connect();
 		}
 		await this.stopMotor({ port });
-		const limitedSpeed = Math.min(Math.max(speed, 0), 100);
+		const limitedSpeed = Math.min(Math.max(Math.abs(speed), 0), 100);
 		if (!this.hub.getDeviceAtPort(port.toUpperCase())) {
 			throw new errors.NoConnectedDevice();
 		}
 
 		(await this.hub.getDeviceAtPort(port.toUpperCase()))?.setPower(
-			limitedSpeed,
+			Math.abs(limitedSpeed),
 		);
 	}
 
@@ -49,13 +49,15 @@ class Construction {
 		if (!(await this.hub.connected)) {
 			await this.hub.connect();
 		}
-		const limitedSpeed = Math.min(Math.max(speed, 0), 100);
+		const limitedSpeed = Math.min(Math.max(Math.abs(speed), 0), 100);
 
 		if (!this.hub.getDeviceAtPort(port.toUpperCase())) {
 			throw new errors.NoConnectedDevice();
 		}
 
-		this.hub.getDeviceAtPort(port.toUpperCase())?.setPower(-limitedSpeed);
+		this.hub
+			.getDeviceAtPort(port.toUpperCase())
+			?.setPower(-Math.abs(limitedSpeed));
 	}
 
 	protected stopMotor({

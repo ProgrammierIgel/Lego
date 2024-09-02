@@ -26,7 +26,11 @@
     "@types/node": "^22.1.0",
     "ts-node": "10.9.2"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "npx tsc -b && node ./build/lib/app/app.js",
+    "start:watch": "npx nodemon ./lib/app/app.ts",
+    "start:dev": "npx ts-node ./lib/app/app.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/programmierigel/legocontrollplus"
