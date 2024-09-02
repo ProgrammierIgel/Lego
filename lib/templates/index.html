@@ -23,51 +23,78 @@
       document.addEventListener("keydown", (e) => (key[e.keyCode] = true));
       document.addEventListener("keyup", (e) => (key[e.keyCode] = false));
       const loop = async () => {
-        console.log(key);
-        if (key["81"] == true && A != "left") {
-          post("A", "left", 100);
+        await console.log(key);
+        if (key["81"] === true && key["65"] === true && A != "stop") {
+          post("A", "stop");
+          A = "stop";
+        } else if (key["81"] == true && key["65"] != true && A != "left") {
+          post("A", "left", 125);
           A = "left";
-        } else if (key["65"] == true && A != "right") {
-          post("A", "right", 100);
+        } else if (key["65"] == true && key["81"] != true && A != "right") {
+          post("A", "right", 125);
           A = "right";
         }
-        if (key["81"] == false && key["65"] == false && A != "stop") {
+        if (
+          (key["81"] == false || key["81"] == undefined) &&
+          (key["65"] == false || key["65"] == undefined) &&
+          A != "stop"
+        ) {
           post("A", "stop");
           A = "stop";
         }
-
-        if (key["87"] == true && B != "left") {
-          post("B", "left", 100);
+        if (key["87"] == true && key["83"] == true && B != "stop") {
+          post("B", "stop");
+          B = "stop";
+        } else if (key["87"] == true && key["83"] != true && B != "left") {
+          post("B", "left", 125);
           B = "left";
-        } else if (key["83"] == true && B != "right") {
-          post("B", "right", 100);
+        } else if (key["83"] == true && key["87"] != true && B != "right") {
+          post("B", "right", 125);
           B = "right";
         }
-        if (key["87"] == false && key["83"] == false && B != "stop") {
+        if (
+          (key["87"] == false || key["87"] == undefined) &&
+          (key["83"] == false || key["83"] == undefined) &&
+          B != "stop"
+        ) {
           post("B", "stop");
           B = "stop";
         }
 
-        if (key["69"] == true && C != "left") {
-          post("C", "left", 100);
+        if (key["69"] == true && key["68"] == true && C != "stop") {
+          post("C", "stop");
+          C = "stop";
+        } else if (key["69"] == true && key["68"] != true && C != "left") {
+          post("C", "left", 125);
           C = "left";
-        } else if (key["68"] == true && C != "right") {
-          post("C", "right", 100);
+        } else if (key["68"] == true && key["69"] != true && C != "right") {
+          post("C", "right", 125);
           C = "right";
         }
-        if (key["69"] == false && key["68"] == false && C != "stop") {
+        if (
+          (key["69"] == false || key["69"] == undefined) &&
+          (key["68"] == false || key["68"] == undefined) &&
+          C != "stop"
+        ) {
           post("C", "stop");
           C = "stop";
         }
 
-        if (key["82"] == true && D != "left") {
+        if (key["82"] == true && key["70"] == true && D != "stop") {
+          post("D", "stop");
+          D = "stop";
+        } else if (key["82"] == true &&key["70"] != true &&  D != "left") {
           post("D", "left", 100);
           D = "left";
-        } else if (key["70"] == true && D != "right") {
+        } else if (key["70"] == true && key["82"] != true && D != "right") {
           post("D", "right", 100);
           D = "right";
         }
-        if (key["82"] == false && key["70"] == false && D != "stop") {
+        if (
+          (key["82"] == false || key["82"] == undefined) &&
+          (key["70"] == false || key["70"] == false) &&
+          D != "stop"
+        ) {
           post("D", "stop");
           D = "stop";
         }
@@ -82,7 +109,7 @@
         }
         return $.post("/start", `port=${motor}&speed=${rest}`);
       };
-      setInterval(loop, 10);
+      setInterval(loop, 100);
     </script>
   </body>
 </html>
