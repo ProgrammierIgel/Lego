@@ -6,8 +6,12 @@ import type { Timer } from './Timer';
 class Construction {
 	protected readonly hub: Hub;
 
+	public readonly batteryLevel: number;
+
 	constructor(hub: Hub) {
 		this.hub = hub;
+		this.hub.connect();
+		this.batteryLevel = hub.batteryLevel;
 	}
 
 	public disconnectConstruction() {

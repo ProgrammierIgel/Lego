@@ -28,6 +28,16 @@ app.get('/ping', (_req, res) => {
 	res.end('OK');
 });
 
+app.get('/health', (_req, res) => {
+	const construction = models.getCurrentConstruction();
+	if (construction === 1) {
+		res.end();
+		return;
+	}
+	logger.debug(construction.batteryLevel.toString());
+	res.end(construction.batteryLevel.toString());
+});
+
 app.post('/start', (req, res) => {
 	const reqBody: Uint8Array[] = [];
 	req.on('data', (chunk) => {

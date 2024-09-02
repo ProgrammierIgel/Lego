@@ -16,7 +16,9 @@ class Bulldozer extends Construction {
 			speed: -speed,
 			timer: this.configuration.a.timer,
 		});
-		super.turnMotorLeft({ speed, port: 'a' });
+		// (i) That on call the motors on the left and on the right side
+		// (i) moves the Vehicle in the same direction
+		super.turnMotorRight({ speed, port: 'a' });
 	}
 
 	override async turnMotorBLeft({ speed }: { speed: number }): Promise<void> {
@@ -51,7 +53,9 @@ class Bulldozer extends Construction {
 			speed,
 			timer: this.configuration.a.timer,
 		});
-		super.turnMotorRight({ speed, port: 'a' });
+		// (i) That on call the motors on the left and on the right side
+		// (i) moves the Vehicle in the same direction
+		super.turnMotorLeft({ speed, port: 'a' });
 	}
 
 	override async turnMotorBRight({ speed }: { speed: number }): Promise<void> {

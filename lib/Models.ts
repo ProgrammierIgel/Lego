@@ -31,7 +31,7 @@ class Models {
 		return this.currentConstructionIndex;
 	}
 
-	public getCurrentConstruction(): Construction | number {
+	public getCurrentConstruction(): Construction | 1 {
 		if (this.constructions.length === 0) {
 			return 1;
 		}
